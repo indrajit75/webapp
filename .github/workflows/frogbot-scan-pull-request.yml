@@ -1,12 +1,15 @@
 name: "Frogbot Scan Pull Request"
+
 on:
   pull_request_target:
     types: [opened, synchronize]
+
 permissions:
   pull-requests: write
   contents: read
   # [Mandatory If using OIDC authentication protocol instead of JF_ACCESS_TOKEN]
   # id-token: write
+
 jobs:
   scan-pull-request:
     runs-on: ubuntu-latest
@@ -30,13 +33,26 @@ jobs:
         env:
           # [Mandatory]
           JF_URL: ${{ secrets.JF_URL }}
+
+          # [Mandatory if JF_USER and JF_PASSWORD are not provided]
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+
+          # [Mandatory if JF_ACCESS_TOKEN is not provided]
+          # JF_USER: ${{ secrets.JF_USER }}
+
+          # [Mandatory if JF_ACCESS_TOKEN is not provided]
+          # JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+
+          # [Mandatory]
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # Optional parameters can remain unchanged or be modified as needed.
-          # Example:
+          # [Optional, default: "FALSE"]
+          JF_FAIL: "FALSE"
+
+          # [Optional]
+          # You can add other optional parameters here as needed.
+          # For example:
           # JF_INCLUDE_ALL_VULNERABILITIES: "TRUE"
-          # JF_FAIL: "FALSE"
           # JF_EMAIL_RECEIVERS: "example@example.com"
 
           # Additional environment variables can be added here as needed.
